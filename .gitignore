@@ -1,0 +1,14 @@
+*.log
+*.autosave
+*.pdb
+*.rc
+*.obj
+*.stash
+*.user
+
+Makefile
+Makefile.Debug
+Makefile.Release
+
+Bin/*
+Temp/*
