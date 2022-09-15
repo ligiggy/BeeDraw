@@ -19,7 +19,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>模板制作界面</string>
+   <string>TemplateDialog</string>
   </property>
   <property name="modal">
    <bool>false</bool>
