@@ -1,2 +1,2 @@
 # BeeDraw
-maybe the most useful graphics draw 2d example using qt5.
+Maybe the most useful graphics-draw-2d example using qt5.
