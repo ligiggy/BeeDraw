@@ -31,6 +31,8 @@ private:
     void onMoveClicked();
     void onChooseClicked();
 
+    void onGetROIImageClicked();
+
     void onOKClicked();
 
 signals:

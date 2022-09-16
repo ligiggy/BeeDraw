@@ -59,6 +59,8 @@ void TemplateDialog::init()
     connect(ui->Pb_Move, &QPushButton::clicked, this, &TemplateDialog::onMoveClicked);
     connect(ui->Pb_Choose, &QPushButton::clicked, this, &TemplateDialog::onChooseClicked);
 
+    connect(ui->Pb_GetROIImage, &QPushButton::clicked, this, &TemplateDialog::onGetROIImageClicked);
+
     connect(ui->Pb_OK, &QPushButton::clicked, this, &TemplateDialog::onOKClicked);
 
     read();
@@ -115,8 +117,6 @@ void TemplateDialog::onDrawROIClicked()
     QPen* rectPen = new QPen(QColor(Qt::green));
     rectPen->setWidth(0);
     d_ptr->m_rectItem->setPen(*rectPen);
-
-
 }
 
 void TemplateDialog::onMoveClicked()
@@ -127,6 +127,36 @@ void TemplateDialog::onMoveClicked()
 void TemplateDialog::onChooseClicked()
 {
     d_ptr->m_graphicsScene->setMode(DrawRoiScene::SelectMode);
+}
+
+void TemplateDialog::onGetROIImageClicked()
+{
+    //    QPainter painter;
+    //    painter.setPen(Qt::blue);
+    //    painter.drawRect(0, 0, 1000, 1000);
+
+    //    QImage fixedImage(64, 64, QImage::Format_ARGB32_Premultiplied);
+    //    fixedImage.fill(0);
+
+    //    QPainter imgPainter(&fixedImage);
+    //    imgPainter.setClipPath(d_ptr->m_rectItem->clipPath());
+    //    imgPainter.drawPixmap(0, 0, d_ptr->m_img.width(), d_ptr->m_img.height(), QPixmap::fromImage(d_ptr->m_img));
+    //    imgPainter.end();
+
+    //    painter.drawPixmap(0, 0, d_ptr->m_img.width(), d_ptr->m_img.height(), QPixmap::fromImage(fixedImage));
+
+
+    QPainterPath painterPath = d_ptr->m_rectItem->clipPath();
+    qDebug() << painterPath;
+    qDebug()<< d_ptr->m_rectItem->mapToScene(d_ptr->m_rectItem->clipPath());
+
+    QPainter imgPainter(&d_ptr->m_img);
+    //    imgPainter.setClipPath(painterPath);
+    imgPainter.drawPath(painterPath);
+    imgPainter.end();
+
+    imgPainter.save();
+
 }
 
 void TemplateDialog::onOKClicked()

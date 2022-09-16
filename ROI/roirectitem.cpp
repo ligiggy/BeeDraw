@@ -27,10 +27,11 @@ RoiRectItem::RoiRectItem(QGraphicsItem *parent)
 {
     setFlag(ItemIsSelectable, true);
     setFlag(ItemIsMovable, true);
-    this->setAcceptHoverEvents(true);
 
+    setFlag(ItemClipsToShape, true);
+
+    this->setAcceptHoverEvents(true);
     this->setFiltersChildEvents(true);
-    //    this->installSceneEventFilter(this);
 
     for(int i = 0; i < SizeHandleRect::RectDirectionNum; i++)
     {
