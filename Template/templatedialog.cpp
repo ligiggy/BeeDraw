@@ -146,16 +146,18 @@ void TemplateDialog::onGetROIImageClicked()
     //    painter.drawPixmap(0, 0, d_ptr->m_img.width(), d_ptr->m_img.height(), QPixmap::fromImage(fixedImage));
 
 
-    QPainterPath painterPath = d_ptr->m_rectItem->clipPath();
-    qDebug() << painterPath;
-    qDebug()<< d_ptr->m_rectItem->mapToScene(d_ptr->m_rectItem->clipPath());
+    QPainterPath painterPath = d_ptr->m_rectItem->mapToScene(d_ptr->m_rectItem->clipPath());
 
-    QPainter imgPainter(&d_ptr->m_img);
-    //    imgPainter.setClipPath(painterPath);
-    imgPainter.drawPath(painterPath);
+    QImage fixedImage(d_ptr->m_img.size(), QImage::Format_ARGB32_Premultiplied);
+    fixedImage.fill(Qt::transparent);
+
+    QPainter imgPainter(&fixedImage);
+    imgPainter.setClipPath(painterPath);
+    imgPainter.drawImage(QPoint(), d_ptr->m_img);
     imgPainter.end();
 
-    imgPainter.save();
+    fixedImage = fixedImage.copy(painterPath.boundingRect().toRect());
+    fixedImage.save("E:Template\\Test.png");
 
 }
 
