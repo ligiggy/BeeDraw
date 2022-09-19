@@ -32,7 +32,9 @@ public:
 public:
     void setRectDirection(EnRectDirection pos);
     void setNewDirection(const QRectF &rect);
+
     void setNewRect(const QRectF &rect);
+    void setNewRect(const QRectF &rect, double scaleRatio);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;

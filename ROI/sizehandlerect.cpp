@@ -14,8 +14,8 @@ public:
     const QCursor rotateCursor{QPixmap(":/Resource/Icon/rotate.png")};
 
 public:
-    const double m_rectWidth = 2;
-    const double m_rectHeight = 2;
+    double m_rectWidth = 2;
+    double m_rectHeight = 2;
 
 public:
     QGraphicsItem * m_parentItem;
@@ -167,9 +167,15 @@ void SizeHandleRect::setNewRect(const QRectF &rect)
             break;
 
         case SizeHandleRect::Rotation:
-            setRect(rect.center().x() - d->m_rectWidth / 2, rect.top() - 10 + d->m_rectHeight / 2, d->m_rectWidth, d->m_rectHeight);
+            setRect(rect.center().x() - d->m_rectWidth / 2, rect.top() - 4 * d->m_rectHeight + d->m_rectHeight / 2, d->m_rectWidth, d->m_rectHeight);
             break;
     }
+}
+
+void SizeHandleRect::setNewRect(const QRectF &rect, double scaleRatio)
+{
+    d->m_rectWidth = d->m_rectHeight = 1 / scaleRatio * 4;
+    setNewRect(rect);
 }
 
 void SizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

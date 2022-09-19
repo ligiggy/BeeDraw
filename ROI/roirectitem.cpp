@@ -88,6 +88,11 @@ void RoiRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
         op.state = QStyle::State_None;
     }
 
+    auto graphicsView = static_cast<ScaleGraphicsView *>(this->scene()->views().front());
+    //    qDebug() << graphicsView->currentScaleRatio();
+
+    this->setPen(QPen(QBrush(Qt::green), 1 / graphicsView->currentScaleRatio() * 2));
+
     QGraphicsRectItem::paint(painter, &op, widget);
 
     if(option->state & QStyle::State_Selected)
@@ -186,9 +191,11 @@ bool RoiRectItem::sceneEventFilter(QGraphicsItem *watched, QEvent *event)
 
 void RoiRectItem::initSizeHandleRect()
 {
+    auto graphicsView = static_cast<ScaleGraphicsView *>(this->scene()->views().front());
+
     for(int i = 0; i < SizeHandleRect::RectDirectionNum; i++)
     {
-        d_ptr->rectBoundingList.at(i)->setNewRect(boundingRect());
+        d_ptr->rectBoundingList.at(i)->setNewRect(boundingRect(), graphicsView->currentScaleRatio());
         d_ptr->rectBoundingList.at(i)->show();
     }
 }

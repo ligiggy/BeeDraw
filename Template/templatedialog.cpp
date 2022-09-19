@@ -83,8 +83,11 @@ void TemplateDialog::onLoadCloudDataClicked()
         strFileName = QApplication::applicationDirPath();
     }
 
+    QStringList filters;
+    filters << QString("%0(*.%0);;%1(*.%1)").arg("jpg").arg("png");
+
     strFileName = QFileDialog::getOpenFileName(this, "open file dialog",
-                                               strFileName, "Files(*.jpg)");
+                                               strFileName, filters.join(";;"));
     if(strFileName.isEmpty())
     {
         return;
@@ -98,6 +101,8 @@ void TemplateDialog::onConvertClicked()
     d_ptr->m_img = QImage(ui->Le_FilePath->text());
     d_ptr->m_imageItem->setPixmap(QPixmap::fromImage(d_ptr->m_img));
     d_ptr->m_graphicsScene->addItem(d_ptr->m_imageItem);
+
+    ui->graphicsView->shrinkToViewPort();
 }
 
 void TemplateDialog::onDrawROIClicked()
@@ -131,21 +136,6 @@ void TemplateDialog::onChooseClicked()
 
 void TemplateDialog::onGetROIImageClicked()
 {
-    //    QPainter painter;
-    //    painter.setPen(Qt::blue);
-    //    painter.drawRect(0, 0, 1000, 1000);
-
-    //    QImage fixedImage(64, 64, QImage::Format_ARGB32_Premultiplied);
-    //    fixedImage.fill(0);
-
-    //    QPainter imgPainter(&fixedImage);
-    //    imgPainter.setClipPath(d_ptr->m_rectItem->clipPath());
-    //    imgPainter.drawPixmap(0, 0, d_ptr->m_img.width(), d_ptr->m_img.height(), QPixmap::fromImage(d_ptr->m_img));
-    //    imgPainter.end();
-
-    //    painter.drawPixmap(0, 0, d_ptr->m_img.width(), d_ptr->m_img.height(), QPixmap::fromImage(fixedImage));
-
-
     QPainterPath painterPath = d_ptr->m_rectItem->mapToScene(d_ptr->m_rectItem->clipPath());
 
     QImage fixedImage(d_ptr->m_img.size(), QImage::Format_ARGB32_Premultiplied);
@@ -158,7 +148,6 @@ void TemplateDialog::onGetROIImageClicked()
 
     fixedImage = fixedImage.copy(painterPath.boundingRect().toRect());
     fixedImage.save("E:Template\\Test.png");
-
 }
 
 void TemplateDialog::onOKClicked()
